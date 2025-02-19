@@ -5,7 +5,8 @@ module Monday
   class Request
     # Performs a POST request
     def self.post(uri, query, headers)
-      http = Net::HTTP.new(uri.host, uri.port)
+      proxy_params = [Monday.config.proxy_address, Monday.config.proxy_port]
+      http = Net::HTTP.new(uri.host, uri.port, *proxy_params)
       http.use_ssl = true
       request = Net::HTTP::Post.new(uri.request_uri, headers)
 

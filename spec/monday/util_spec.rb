@@ -74,23 +74,53 @@ RSpec.describe Monday::Util do
   end
 
   describe ".format_select" do
-    subject(:format_select) { described_class.format_select(array) }
+    subject(:format_select) { described_class.format_select(value) }
 
-    context "when the array only contains strings" do
-      let(:array) { %w[hello world] }
+    let(:value) { nil }
 
-      it "returns the formatted array string" do
-        expect(format_select).to eq("hello world")
+    context "with the array" do
+      context "when only contains strings" do
+        let(:value) { %w[hello world] }
+
+        it "returns the formatted array string" do
+          expect(format_select).to eq("hello world")
+        end
+      end
+
+      context "when contains nested hash" do
+        let(:value) do
+          ["hello", { numbers: %w[one two] }, "world"]
+        end
+
+        it "returns the formatted array string" do
+          expect(format_select).to eq("hello numbers { one two } world")
+        end
       end
     end
 
-    context "when the array contains nested hash" do
-      let(:array) do
-        ["hello", { numbers: %w[one two] }, "world"]
+    context "with the hash" do
+      context "when only contains strings" do
+        let(:value) { { hello: "world" } }
+
+        it "returns the formatted array string" do
+          expect(format_select).to eq("hello { world }")
+        end
       end
 
-      it "returns the formatted array string" do
-        expect(format_select).to eq("hello numbers { one two } world")
+      context "when contains nested array" do
+        let(:value) { { hello: "world", numbers: %w[one two] } }
+
+        it "returns the formatted array string" do
+          expect(format_select).to eq("hello { world } numbers { one two }")
+        end
+      end
+    end
+
+    context "with the string" do
+      let(:value) { "hello world" }
+
+      it "returns the formatted string" do
+        expect(format_select).to eq("hello world")
       end
     end
   end

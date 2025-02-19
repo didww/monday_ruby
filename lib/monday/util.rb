@@ -26,7 +26,7 @@ module Monday
         return format_hash(value) if value.is_a?(Hash)
         return format_array(value) if value.is_a?(Array)
 
-        values
+        value
       end
 
       def status_code_exceptions_mapping(status_code)
