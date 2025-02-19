@@ -10,11 +10,15 @@ module Monday
   class Configuration
     DEFAULT_HOST = "https://api.monday.com/v2"
     DEFAULT_TOKEN = nil
+    DEFAULT_PROXY_ADDRESS = nil
+    DEFAULT_PROXY_PORT = nil
     DEFAULT_VERSION = "2023-07"
 
     CONFIGURATION_FIELDS = %i[
       token
       host
+      proxy_address
+      proxy_port
       version
     ].freeze
 
@@ -27,6 +31,8 @@ module Monday
       @host = DEFAULT_HOST
       @token = DEFAULT_TOKEN
       @version = DEFAULT_VERSION
+      @proxy_address = DEFAULT_PROXY_ADDRESS
+      @proxy_port = DEFAULT_PROXY_PORT
 
       config_args.each do |key, value|
         public_send("#{key}=", value)
@@ -36,6 +42,8 @@ module Monday
     def reset
       @token = DEFAULT_TOKEN
       @host = DEFAULT_HOST
+      @proxy_address = DEFAULT_PROXY_ADDRESS
+      @proxy_port = DEFAULT_PROXY_PORT
       @version = DEFAULT_VERSION
     end
   end
