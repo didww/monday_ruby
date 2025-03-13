@@ -26,7 +26,7 @@ module Monday
     end
 
     def make_request(body)
-      response = Request.post(uri, body, request_headers)
+      response = Request.post(uri, proxy_params, body, request_headers)
 
       handle_response(Response.new(response))
     end
@@ -41,6 +41,10 @@ module Monday
 
     def uri
       URI(@config.host)
+    end
+
+    def proxy_params
+      [@config.proxy_address, @config.proxy_port]
     end
 
     def request_headers

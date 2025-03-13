@@ -2,9 +2,10 @@
 
 RSpec.describe Monday::Request do
   describe ".post" do
-    subject(:post) { described_class.post(uri, query, headers) }
+    subject(:post) { described_class.post(uri, proxy_params, query, headers) }
 
     let(:uri) { URI.parse(monday_url) }
+    let(:proxy_params) { [] }
     let(:query) { "query{ boards {id} }" }
     let(:body) do
       {
@@ -45,16 +46,10 @@ RSpec.describe Monday::Request do
         expect(post.code).to eq("200")
       end
 
-      context "with a configuration" do
-        let!(:configuration) do
-          Monday.configure do |config|
-            config.proxy_address = proxy_address
-            config.proxy_port = proxy_port
-          end
-        end
-
+      context "with a proxy" do
         let(:proxy_address) { "proxy.com" }
         let(:proxy_port) { 8080 }
+        let(:proxy_params) { [proxy_address, proxy_port] }
 
         it "uses the proxy" do
           expect(Net::HTTP).to receive(:new)
