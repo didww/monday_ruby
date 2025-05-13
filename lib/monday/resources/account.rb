@@ -12,8 +12,8 @@ module Monday
       #
       # Allows customizing the values to retrieve using the select option.
       # By default, ID and name are retrieved.
-      def query(select: DEFAULT_SELECT)
-        request_query = "query{users{account {#{Util.format_select(select)}}}}"
+      def query(args: {}, select: DEFAULT_SELECT)
+        request_query = "query{users#{Util.format_args(args)}{#{Util.format_select(select)}}}"
 
         make_request(request_query)
       end
